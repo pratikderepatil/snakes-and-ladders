@@ -4,9 +4,9 @@ One hundred squares full of traps and tricks… Roll the dice and try your luck!
 
 ## Rules
 
-- If you lands at the bottom of a ladder, you can move up to the top of the ladder (Ladders are green tiles).
-- If you lands on the head of a snake, you must slide down to the bottom of the snake (Snakes are red tiles).
-- Get to the space that says '100' is the winner (yellow tiles).
+- If you lands at the bottom of a ladder, you can move up to the top of the ladder (Ladder starts from green tiles).
+- If you lands on the head of a snake, you must slide down to the bottom of the snake (Snake starts form red tiles).
+- Get to the space that says '100' is the winner (yellow tile).
 
 ## Demo
 
