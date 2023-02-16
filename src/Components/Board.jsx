@@ -9,6 +9,7 @@ import Dice from "./Dice";
 const Board = () => {
 	const board = [];
 	const [player, setPlayer] = useState(0);
+	const [loading, setLoading] = useState(false);
 	const [dice, setDice] = useState(0);
 	const toast = useToast();
 	let tile = 1;
@@ -58,6 +59,7 @@ const Board = () => {
 	});
 
 	const rollDice = () => {
+		setLoading(true);
 		const newDice = Math.floor(Math.random() * 6) + 1;
 		setDice(newDice);
 		if (player + newDice > 100) {
@@ -92,6 +94,7 @@ const Board = () => {
 			}, 500);
 			setTimeout(() => {
 				setPlayer(dest);
+				setLoading(false);
 			}, 1000);
 		}
 	};
@@ -116,7 +119,7 @@ const Board = () => {
 		<>
 			<Flex justifyContent={"center"} gap="5" h={"auto"} m="auto" p="20">
 				<Flex justifyContent={"flex-end"} p="3" gap="4" flexDirection="column">
-					<Dice dice={dice} rollDice={rollDice} />
+					<Dice dice={dice} rollDice={rollDice} loading={loading} />
 					<Flex
 						justifyContent={"center"}
 						alignItems={"center"}

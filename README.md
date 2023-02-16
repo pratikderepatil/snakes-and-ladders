@@ -1,11 +1,11 @@
 # Snakes and Ladder game
 
-One hundred squares full of traps and tricks… Roll the dice and try your luck! Ladders will take you up but Snakes will take you down! This is a great game!
+There are one hundred squares full of traps and tricks… Roll the dice and try your luck! Ladders will take you up but Snakes will take you down! This is a great game!
 
 ## Rules
 
-- If you lands at the bottom of a ladder, you can move up to the top of the ladder (Ladder starts from green tile).
-- If you lands on the head of a snake, you must slide down to the bottom of the snake (Snake starts form red tile).
+- If you land at the bottom of a ladder, you can move up to the top of the ladder (the ladder starts from green tile).
+- If you land on the head of a snake, you must slide down to the bottom of the snake (the snake starts from a red tile).
 - Get to the space that says '100' is the winner (yellow tile).
 
 ## Demo
