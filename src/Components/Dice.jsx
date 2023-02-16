@@ -7,8 +7,9 @@ const Dice = ({ dice, rollDice }) => {
 			<Flex justifyContent={"center"}>
 				<Heading>{dice}</Heading>
 			</Flex>
-			<Button onClick={rollDice}>Roll Dice</Button>
-			
+			<Button onClick={rollDice} variant="outline" colorScheme={"whatsapp"}>
+				Roll Dice
+			</Button>
 		</Flex>
 	);
 };
