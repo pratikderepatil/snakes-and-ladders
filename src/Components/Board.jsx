@@ -1,4 +1,4 @@
-import { Grid, useToast } from "@chakra-ui/react";
+import { Flex, Grid, Heading, useToast } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Tile from "./Tile";
 import {
@@ -72,21 +72,38 @@ const Board = () => {
 			setPlayer(0);
 		} else {
 			const dest = checkValue(player, newDice, board);
-			console.log(dest);
-			setPlayer(dest);
+			if (dest > player + newDice) {
+				toast({
+					title: "You Climbed the ladder",
+					status: "success",
+					duration: 3000,
+					isClosable: true,
+				});
+			} else if (dest < player + newDice) {
+				toast({
+					title: "You were eaten by the snake",
+					status: "error",
+					duration: 3000,
+					isClosable: true,
+				});
+			}
+			setTimeout(() => {
+				setPlayer(player + newDice);
+			}, 500);
+			setTimeout(() => {
+				setPlayer(dest);
+			}, 1000);
 		}
 	};
 
 	const checkValue = (player, dice) => {
 		for (let i = 0; i < ladderPositions.length; i++) {
-			console.log(ladderPositions[i]);
 			if (ladderPositions[i].from === dice + player) {
 				console.log(ladderPositions[i]);
 				return ladderPositions[i].to;
 			}
 		}
 		for (let i = 0; i < snakePositions.length; i++) {
-			console.log(snakePositions[i]);
 			if (snakePositions[i].from === dice + player) {
 				console.log(snakePositions[i]);
 				return snakePositions[i].to;
@@ -97,18 +114,32 @@ const Board = () => {
 	};
 	return (
 		<>
-			<Dice dice={dice} rollDice={rollDice} />
-			<Grid
-				templateRows="repeat(10, 60px)"
-				templateColumns="repeat(10, 60px)"
-				gap={0}
-			>
-				{board.map((ele) => {
-					return ele.map((elem) => {
-						return <Tile {...elem} currplayer={player} key={elem.number} />;
-					});
-				})}
-			</Grid>
+			<Flex justifyContent={"center"} gap="5" h={"auto"} m="auto" p="20">
+				<Flex justifyContent={"flex-end"} p="3" gap="4" flexDirection="column">
+					<Dice dice={dice} rollDice={rollDice} />
+					<Flex
+						justifyContent={"center"}
+						alignItems={"center"}
+						bgColor={player === 0 ? "gray.400" : "white"}
+						borderWidth="1px"
+						borderRadius={player === 0 ? "20" : "10%"}
+						h="50"
+					>
+						<Heading fontSize={"lg"}> Start 00</Heading>
+					</Flex>
+				</Flex>
+				<Grid
+					templateRows="repeat(10, 60px)"
+					templateColumns="repeat(10, 60px)"
+					gap={0}
+				>
+					{board.map((ele) => {
+						return ele.map((elem) => {
+							return <Tile {...elem} currplayer={player} key={elem.number} />;
+						});
+					})}
+				</Grid>
+			</Flex>
 		</>
 	);
 };

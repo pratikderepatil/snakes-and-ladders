@@ -1,22 +1,34 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
-const Tile = ({ row, col, number, to, currplayer }) => {
-	let cellData = "";
-
+const Tile = ({ number, to, currplayer }) => {
+	let color = "white";
+	let round = "10%";
 	if (number > to) {
-		cellData += "S";
+		color = "red.400";
 	}
 	if (number < to) {
-		cellData += "L";
+		color = "green.400";
 	}
 	if (number === currplayer) {
-		cellData += "P";
+		color = "gray.400";
+		round = "45%";
+	}
+	if (number === 100) {
+		color = "yellow.400";
 	}
 	return (
-		<Box w="50" h="50" borderWidth="1px" p="" borderRadius="lg">
-			{number} {cellData}
-		</Box>
+		<Flex
+			justifyContent={"center"}
+			alignItems={"center"}
+			w="50"
+			h="50"
+			borderWidth="1px"
+			bgColor={color}
+			borderRadius={round}
+		>
+			<Heading size={"sm"}>{number}</Heading>
+		</Flex>
 	);
 };
 
