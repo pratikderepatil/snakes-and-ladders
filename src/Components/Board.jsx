@@ -37,13 +37,24 @@ const Board = () => {
 		}
 		board.splice(0, 0, boardRow);
 	}
-	ladderPositions.map((ele) => {
-		return (board[ele.fromrow - 1][(ele.from % 10) - 1].to = ele.to);
-	});
+
 	snakePositions.map((ele) => {
-		return (board[ele.fromrow - 1][(ele.from % 10) - 1].to = ele.to);
+		for (let j = 1; j <= 10; j++) {
+			if (board[10 - ele.fromrow][j].number === ele.from) {
+				return (board[10 - ele.fromrow][j].to = ele.to);
+			}
+		}
+		return ele;
 	});
-	console.log(board);
+	ladderPositions.map((ele) => {
+		for (let j = 1; j <= 10; j++) {
+			if (board[10 - ele.fromrow][j].number === ele.from) {
+				return (board[10 - ele.fromrow][j].to = ele.to);
+			}
+		}
+		return ele;
+	});
+
 	return (
 		<Grid
 			templateRows="repeat(10, 60px)"
