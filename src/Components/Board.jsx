@@ -1,4 +1,4 @@
-import { Grid } from "@chakra-ui/react";
+import { Grid, useToast } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import Tile from "./Tile";
 import {
@@ -10,6 +10,7 @@ const Board = () => {
 	const board = [];
 	const [player, setPlayer] = useState(0);
 	const [dice, setDice] = useState(0);
+	const toast = useToast();
 	const ref = useRef(null);
 	let tile = 1;
 	for (let i = 1; i <= 10; i++) {
@@ -57,24 +58,37 @@ const Board = () => {
 		return ele;
 	});
 
+	const changePosition = (changeby, time) => {
+		setTimeout(() => setPlayer(player + changeby), time);
+		console.log(player);
+	};
+
 	const rollDice = () => {
 		const newDice = Math.floor(Math.random() * (6 - 1)) + 1;
 		setDice(newDice);
 		if (player + newDice > 100) {
+		} else if (player + newDice === 100) {
+			toast({
+				title: "You won!.",
+				description: "You have succesfully reached the destinaiton",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+			});
+			setPlayer(0);
 		} else {
-			for (let i = 1; i <= newDice; i++) {
-				setTimeout(() => setPlayer((prev) => (prev = player + i)), i * 1000);
-			}
+			let dest = player + newDice;
 			let row = Math.floor(player / 10);
 			for (let j = 0; j < 10; j++) {
-				console.log(board[9 - row][j]);
 				if (
 					board[9 - row][j].number === player &&
 					board[9 - row][j].number !== board[9 - row][j].to
 				) {
-					setPlayer(board[9 - row][j].to);
+					dest = board[9 - row][j].to;
 				}
+				console.log(dest);
 			}
+			setPlayer((prev) => (prev = dest));
 		}
 	};
 	return (
