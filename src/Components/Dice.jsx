@@ -7,6 +7,8 @@ const Dice = ({ dice, rollDice, loading }) => {
 			<Flex justifyContent={"center"}>
 				<Heading>{dice}</Heading>
 			</Flex>
+			{/* OnClick dice will generate a random number, and player will moving based on the outcome of dice.
+			While the player is moving the button will be in loading state */}
 			<Button
 				onClick={rollDice}
 				isLoading={loading}

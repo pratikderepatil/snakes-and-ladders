@@ -1,3 +1,4 @@
+// snake positions array of objects.
 export const snakePositions = [
 	{
 		fromrow: 4,
@@ -20,6 +21,7 @@ export const snakePositions = [
 		to: 17,
 	},
 ];
+// ladder positions array of objects.
 export const ladderPositions = [
 	{
 		fromrow: 1,

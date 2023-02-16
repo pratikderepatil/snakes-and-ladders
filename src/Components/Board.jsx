@@ -13,8 +13,11 @@ const Board = () => {
 	const [dice, setDice] = useState(0);
 	const toast = useToast();
 	let tile = 1;
+	// Creating board tiles.
 	for (let i = 1; i <= 10; i++) {
+		// on board there are 10 rows and 10 coloumns
 		let boardRow = [];
+		// for rows with odd number will start form 1 - 10 in multiple of 10's
 		if (i % 2 === 1) {
 			for (let j = 1; j <= 10; j++) {
 				boardRow.push({
@@ -26,6 +29,7 @@ const Board = () => {
 				tile++;
 			}
 		} else {
+			// for rows with even number will start form 10 - 1 in multiple of 10's
 			tile += 9;
 			for (let j = 1; j <= 10; j++) {
 				boardRow.push({
@@ -38,9 +42,10 @@ const Board = () => {
 			}
 			tile += 11;
 		}
+		// inserting the row at the start of board array
 		board.splice(0, 0, boardRow);
 	}
-
+	// adding snake positions on the board
 	snakePositions.map((ele) => {
 		for (let j = 1; j <= 10; j++) {
 			if (board[10 - ele.fromrow][j].number === ele.from) {
@@ -49,6 +54,7 @@ const Board = () => {
 		}
 		return ele;
 	});
+	// adding ladder positions on the board.
 	ladderPositions.map((ele) => {
 		for (let j = 1; j <= 10; j++) {
 			if (board[10 - ele.fromrow][j].number === ele.from) {
@@ -57,13 +63,18 @@ const Board = () => {
 		}
 		return ele;
 	});
-
+	// Rolling the dice and moving the player on the random outcome
 	const rollDice = () => {
 		setLoading(true);
+		// Generating random value between 1 to 6
 		const newDice = Math.floor(Math.random() * 6) + 1;
 		setDice(newDice);
+		// Adding the outcome to current postion of player if the new outcome is greater than 100 no action is performed
 		if (player + newDice > 100) {
-		} else if (player + newDice === 100) {
+		}
+		// Adding the outcome to current postion of player if the new outcome is 100 game is over, and new starts
+		else if (player + newDice === 100) {
+			// pop up will be displayed with message you won
 			toast({
 				title: "You won!.",
 				description: "You have succesfully reached the destinaiton",
@@ -71,17 +82,23 @@ const Board = () => {
 				duration: 9000,
 				isClosable: true,
 			});
+			// start a new game
 			setPlayer(0);
 		} else {
 			const dest = checkValue(player, newDice, board);
+			// checking id the destination id greater than new outcome
 			if (dest > player + newDice) {
+				// pop up will be displayed with message you climbed the ladder
 				toast({
 					title: "You Climbed the ladder",
 					status: "success",
 					duration: 3000,
 					isClosable: true,
 				});
-			} else if (dest < player + newDice) {
+			}
+			// checking id the destination id greater than new outcome
+			else if (dest < player + newDice) {
+				// pop up will be displayed with message you were eaten by the snake
 				toast({
 					title: "You were eaten by the snake",
 					status: "error",
@@ -89,9 +106,12 @@ const Board = () => {
 					isClosable: true,
 				});
 			}
+			// will move the current player position to new outcome after 500 miliseconds
 			setTimeout(() => {
 				setPlayer(player + newDice);
 			}, 500);
+
+			// will move the current player position to new outcome after 1000 miliseconds if eaten by snake or climber the ladder
 			setTimeout(() => {
 				setPlayer(dest);
 				setLoading(false);
@@ -100,19 +120,21 @@ const Board = () => {
 	};
 
 	const checkValue = (player, dice) => {
+		// checking if the new outcome lands on ladder, and returning to position.
 		for (let i = 0; i < ladderPositions.length; i++) {
 			if (ladderPositions[i].from === dice + player) {
 				console.log(ladderPositions[i]);
 				return ladderPositions[i].to;
 			}
 		}
+		// checking if the new outcome lands on snake, and returning to position.
 		for (let i = 0; i < snakePositions.length; i++) {
 			if (snakePositions[i].from === dice + player) {
 				console.log(snakePositions[i]);
 				return snakePositions[i].to;
 			}
 		}
-
+		// returning if new outcome doesnot land on snake or ladder
 		return player + dice;
 	};
 	return (
