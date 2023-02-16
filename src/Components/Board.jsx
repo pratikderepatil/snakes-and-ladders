@@ -1,12 +1,16 @@
 import { Grid } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef, useState } from "react";
 import Tile from "./Tile";
 import {
 	ladderPositions,
 	snakePositions,
 } from "../Data/SnakeAndLadderPosition";
+import Dice from "./Dice";
 const Board = () => {
 	const board = [];
+	const [player, setPlayer] = useState(0);
+	const [dice, setDice] = useState(0);
+	const ref = useRef(null);
 	let tile = 1;
 	for (let i = 1; i <= 10; i++) {
 		let boardRow = [];
@@ -17,7 +21,6 @@ const Board = () => {
 					col: j,
 					number: tile,
 					to: tile,
-					player: [],
 				});
 				tile++;
 			}
@@ -29,7 +32,6 @@ const Board = () => {
 					col: j,
 					number: tile,
 					to: tile,
-					player: [],
 				});
 				tile--;
 			}
@@ -55,18 +57,41 @@ const Board = () => {
 		return ele;
 	});
 
+	const rollDice = () => {
+		const newDice = Math.floor(Math.random() * (6 - 1)) + 1;
+		setDice(newDice);
+		if (player + newDice > 100) {
+		} else {
+			for (let i = 1; i <= newDice; i++) {
+				setTimeout(() => setPlayer((prev) => (prev = player + i)), i * 1000);
+			}
+			let row = Math.floor(player / 10);
+			for (let j = 0; j < 10; j++) {
+				console.log(board[9 - row][j]);
+				if (
+					board[9 - row][j].number === player &&
+					board[9 - row][j].number !== board[9 - row][j].to
+				) {
+					setPlayer(board[9 - row][j].to);
+				}
+			}
+		}
+	};
 	return (
-		<Grid
-			templateRows="repeat(10, 60px)"
-			templateColumns="repeat(10, 60px)"
-			gap={0}
-		>
-			{board.map((ele) => {
-				return ele.map((elem) => {
-					return <Tile {...elem} key={elem.number} />;
-				});
-			})}
-		</Grid>
+		<>
+			<Dice dice={dice} rollDice={rollDice} />
+			<Grid
+				templateRows="repeat(10, 60px)"
+				templateColumns="repeat(10, 60px)"
+				gap={0}
+			>
+				{board.map((ele) => {
+					return ele.map((elem) => {
+						return <Tile {...elem} currplayer={player} key={elem.number} />;
+					});
+				})}
+			</Grid>
+		</>
 	);
 };
 
