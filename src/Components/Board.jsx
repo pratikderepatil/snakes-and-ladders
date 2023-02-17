@@ -81,6 +81,7 @@ const Board = () => {
 				status: "success",
 				duration: 9000,
 				isClosable: true,
+				position: "top",
 			});
 			// start a new game
 			setPlayer(0);
@@ -90,20 +91,27 @@ const Board = () => {
 			if (dest > player + newDice) {
 				// pop up will be displayed with message you climbed the ladder
 				toast({
-					title: "You Climbed the ladder",
+					title: `You climbed the ladder at ${
+						player + newDice
+					} and took you ahead to ${dest}`,
 					status: "success",
 					duration: 3000,
 					isClosable: true,
+					position: "top",
 				});
 			}
 			// checking id the destination id greater than new outcome
 			else if (dest < player + newDice) {
 				// pop up will be displayed with message you were eaten by the snake
 				toast({
-					title: "You were eaten by the snake",
+					title: `You were eaten by the snake at ${
+						player + newDice
+					} and bring you
+back to ${dest}`,
 					status: "error",
 					duration: 3000,
 					isClosable: true,
+					position: "top",
 				});
 			}
 			// will move the current player position to new outcome after 500 miliseconds
@@ -114,9 +122,9 @@ const Board = () => {
 			// will move the current player position to new outcome after 1000 miliseconds if eaten by snake or climber the ladder
 			setTimeout(() => {
 				setPlayer(dest);
-				setLoading(false);
 			}, 1000);
 		}
+		setLoading(false);
 	};
 
 	const checkValue = (player, dice) => {
